@@ -1,6 +1,6 @@
 # Hi, I’m Hope, and welcome to my Data Science portfolio! 
 This repository showcases a collection of end‑to‑end projects I have completed during my M.S. in Data Science program. Each project reflects the full analytical workflow — from data cleaning and feature engineering to exploratory analysis, statistical modeling, machine learning, and interpretation.
-The notebooks in this repo use real‑world, publicly available datasets and demonstrate practical, industry‑aligned data science skills. My goal is to highlight not only technical proficiency, but also clear reasoning, thoughtful methodology, and strong communication of insights.
+The projects in this repo use real‑world, publicly available datasets and demonstrate practical, industry‑aligned data science skills. My goal is to highlight not only technical proficiency, but also clear reasoning, thoughtful methodology, and strong communication of insights.
 
 
 ## Project 1 — Austin Animal Shelter Outcomes Analysis
