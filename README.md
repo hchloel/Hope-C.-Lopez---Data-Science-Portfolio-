@@ -92,36 +92,62 @@ Results:
 - Very few misclassifications
 - Strong, balanced performance across both classes
 
+## Project 3 — Housing Price Analysis in R
+**Notebook**: r-housing-linear-regression.Rmd
+
+**Techniques**: Data wrangling, categorical encoding, visualization, simple & multiple linear regression, residual diagnostics, ANOVA model comparison (R)
+
+**Overview**: This project demonstrates my experience performing statistical modeling in R using RMarkdown. I analyze a housing dataset to understand how structural features and amenities influence sale price. The workflow includes data cleaning, exploratory visualization, simple and multiple linear regression, model diagnostics, and formal model comparison.
+
+**Key Steps**:
+- Verified dataset structure and confirmed no missing values
+- Converted six binary categorical variables (mainroad, guestroom, basement, hotwaterheating, airconditioning, prefarea) from "yes"/"no" to 0/1
+- Converted furnishingstatus into a factor to preserve categorical structure
+- Explored distributions using histograms and boxplots
+- Visualized relationships using a correlation matrix
+- Built a simple linear regression model (price ~ area)
+- Built a multiple regression model incorporating additional predictors
+- Evaluated model assumptions using residual plots and Q‑Q plots
+- Compared models using RMSE, MSE, R², adjusted R², and ANOVA
+
+
 ## Skills Demonstrated Across the Portfolio
 **Data Wrangling**
 - Handling missingness
 - Standardizing categorical values
-- Outlier treatment
-- Feature engineering
+- Encoding binary and multi‑level categorical variables (Python & R)
+- Outlier detection and treatment
+- Feature engineering (age calculations, transformations, grouping)
+- Dataset merging and cleaning across multiple formats
 **Exploratory Data Analysis**
-- Summary statistics
-- Distribution analysis
-- Correlation/covariance
+- Summary statistics and distribution analysis
+- Correlation and covariance matrices
+- Spearman rank correlations
 - Missingness visualization
+- Histograms, boxplots, scatterplots, and density plots
+- Correlation heatmaps and matrix visualizations (Python & R)
 **Statistical Modeling**
 - Welch’s t‑test
-- Levene’s test
-- Regression diagnostics
+- - Levene’s test
+- Simple and multiple linear regression (Python & R)
+- Regression diagnostics (residual plots, Q‑Q plots, heteroscedasticity checks)
+- ANOVA model comparison
+- Interpretation of coefficients, significance, and model assumptions
 **Machine Learning**
 - Linear regression
 - Logistic regression
 - K‑Means clustering
 - PCA visualization
-- Model evaluation (R², RMSE, precision/recall/F1, ROC‑AUC, silhouette score)
+- Model evaluation: R², adjusted R², RMSE, MSE
+- Classification metrics: precision, recall, F1 score, ROC‑AUC
+- Clustering metrics: silhouette score, Fowlkes–Mallows Index
 **Tools & Libraries**
-- Python
-- Pandas
-- NumPy
-- Matplotlib / Seaborn
-- Scikit‑learn
+- Python: Pandas, NumPy, Matplotlib, Seaborn, Scikit‑learn
+- R: Base R, RMarkdown, corrplot, factor handling, model diagnostics
 - Custom utilities (ml_utils)
+- Jupyter Notebook & RMarkdown for reproducible analysis
 
 ## Summary
-This portfolio demonstrates a full range of data science capabilities. From cleaning messy real‑world data to building and evaluating statistical and machine learning models. Each project is structured to show clear reasoning, strong methodology, and thoughtful interpretation.
+This portfolio demonstrates a full range of data science capabilities — from cleaning messy real‑world data to building and evaluating statistical and machine learning models in both Python and R. Each project is structured to show clear reasoning, strong methodology, and thoughtful interpretation.
 
 **Thank you for taking the time to visit my portfolio! :)**
