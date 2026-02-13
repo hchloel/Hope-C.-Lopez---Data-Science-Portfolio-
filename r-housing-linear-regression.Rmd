@@ -1,0 +1,279 @@
+---
+title: '10.2Exercise_Lopez_H'
+author: "Hope Lopez"
+date: "2025-11-14"
+output: html_document
+---
+***modified by:*** n/a
+
+***description:*** Linear Regression Practice
+
+***references:*** 
+Cohen, M. X. (2023). Modern statistics: Intuition, math, Python, R. Sincxpress Education SRL
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+# calls corrplot library for use 
+library(corrplot)
+
+# Loads the dataset from my downloads folder and save as a df called housing_data
+setwd("C:\\Users\\lahop\\Downloads")
+housing_data <- read.csv("Housing.csv")
+
+```
+To get a better understanding of the data I am working with, I've produced a summary for my reference and checked the NA counts for each column. Thankfully, there are no NA values in the dataset. I also checked the categorical variables to understand what type of data they produced.
+```{r}
+# Displays structure of the housing prices df for my reference and understanding of the data
+summary(housing_data)
+```
+```{r}
+# quick check to see NA count for each col. 
+colSums(is.na(housing_data))
+
+# quick inspection of the categorical variables in the dataset
+sapply(housing_data[, sapply(housing_data, is.character)], unique)
+
+```
+
+### Explain any transformations or modifications you made to the dataset.
+
+from the previous chunk, I found that most of the categorical variables are binary (true/false). To make them usable for modeling, I am converting the 6 binary variables ('"mainroad", guestroom", "basement", "hotwaterheating", "airconditioning", "prefarea") to numeric ( 0 = False, 1 = True). Additionally, the 'furnishingstatus' variable has 3 distinct levels ("furnished","semi-furnished" and "unfurnished"), since it was a categorical variable, I chose to convert it to a factor. This transformation ensures that the models I create can capture differences in housing prices based on furnishing status without imposing some artificial numeric order.
+
+```{r}
+# saves the identified binary (yes/no) variables as 'binary_vars'
+binary_vars <- c("mainroad", "guestroom", "basement", "hotwaterheating", "airconditioning", "prefarea")
+
+# Converts identified 'binary_vars' from yes/no to 0/1
+housing_data[binary_vars] <- lapply(housing_data[binary_vars], function(x) ifelse(x == "yes", 1, 0))
+```
+
+After transforming, I wanted to explore the distribution and relationships of the features within the housing dataset, I visualized some of the key variables using histograms and boxplots and a correlation matrix below.
+
+The first histogram of housing prices revealed a right-skewed distribution, with most properties priced between $2-6 million. The long right tail extending towards 13 million suggests the presence of high value outliers. 
+
+The second histogram of property area, shows that most homes fall between 2,000 - 4,000 sqft., with a peak around 3,00-4,500 sq. ft. The distribution is right-skewed indicating that larger properties are less common.
+
+The boxplot of price by furnishing status highlights how furnishing status may be a meaningful predictor of sales price. Here, we see that furnished homes tend to command higher prices, followed by semi-furnished, and unfurnished properties tend to generate lower prices. 
+
+Lastly, the correlation matrix revels strong positive relationships between price and features like area, bathrooms, number of stories, and number of parking spaces. The number of bedrooms has a weaker correlation which indicates that this feature may have a weaker predictive power on its own. 
+
+
+```{r}
+# plots a histogram of 'price' to check for skewness, outliers and spread
+hist(housing_data$price, main = "Distribution of Housing Prices", xlab = "Price", col = "blue", breaks = 'fd')
+
+# plots a histogram of 'area' to check for skewness, outliers and spread
+hist(housing_data$area, main = "Distribution of Property Area", xlab = "Area (sq ft)", col = "purple", breaks = 'fd')
+
+# plots boxplots of price by furnishing status
+boxplot(price ~ furnishingstatus, data = housing_data,
+        main = "Price by Furnishing Status",
+        xlab = "Furnishing Status", ylab = "Price",
+        col = c("lightyellow", "lightblue", "lightpink"))
+
+# plots correlation plot of relationships between the numeric variables
+numeric_vars <- housing_data[, sapply(housing_data, is.numeric)]
+corrplot(cor(numeric_vars), method = "circle")
+
+
+```
+
+### Create a linear regression model where “area” infers price (i.e., area is used to predict price).
+
+Below, I've created a linear regression model using area as the predictor of price. This model is going to help provide a baseline understanding of the influence of property size on sale price. It was built using R's lm() function and will be stored as 'lr_model1' for further analysis/model evaluation. 
+
+```{r}
+# builds a simple linear regression model using 'area' to predict 'price'
+lr_model1 <- lm(price ~ area, data = housing_data)
+```
+
+### Get a summary of your first model and explain your results (e.g., R2, adj R2, RMSE, MSE).
+
+After fitting the linear regression model using area to predict price, I've evaluated its performance using the model summary and key error metrics below. 
+The R-squared value of approx. 0.2873 suggests that about 28.7% of the variation in housing price is explained by property area alone, indicating a moderate linear relationship. 
+The adjusted R-squared of approx. 0.286 is nearly identical to R-squared, confirming the model's explanatory power given the single predictor of area. 
+The residual standard of error of 1581000 on 543 degrees of freedom, indicates that on average, the model's predictions deviate from the actual prediction by about $1.58 million.
+The Root Mean Squared Error (RMSE) and Mean Squared Error (MSE) quantify the average prediction error. RMSE, $1,577,613, is in the same units as the price, which makes it easier to interpret. This high RMSE of $1,577,613 suggests that area is a useful predictor but it doesn't fully capture the complexity of housing prices. 
+The t-value for area is 14.79, with a p-value <2e-16, which indicates that the relationship between area and price is statistically significant.
+The F-statistic of 218.9 further confirms the overall significance of this model. 
+
+In sum, this model confirms a positive and significant relationship between property size and price. Yet, the moderate R-squared and high RMSE indicate that area alone is insufficient for accurate prediction. therefore, we should consider developing a multiple regression model to incorporate additional features for improved predictive performance. 
+
+```{r}
+# provides a model summary (R2, adj R2, RMSE, MSE)
+summary(lr_model1)
+
+# extract residuals from the model
+residuals_model1 <- resid(lr_model1)
+
+
+# calculates RMSE (Root Mean Squared Error)
+rmse_model1 <- sqrt(mean(residuals_model1^2))
+
+# calculates MSE (Mean Squared Error)
+mse_model1 <- mean(residuals_model1^2)
+
+# prints formatted RMSE and MSE
+cat("RMSE:", rmse_model1, "\n")
+cat("MSE:", mse_model1, "\n")
+```
+
+### Get the residuals of your model (you can use ‘resid’ or ‘residuals’ functions) and plot them. What does the plot tell you about your predictions?
+
+To visually evaluate the performance of my linear regression model, lr_model1, I've extracted the residuals using the resid() function. Then, I plotted the residuals against the fitted values (predicted prices). The significance of this plot is that it will help me assess whether the model's errors are randomly distributed, which is a key assumption for linear regression. The plot shows that the residuals are scattered around the horizontal line at y = 0, suggesting that the model does not consistently over/under predict across the range of fitted values. However, there is visible spread, especially at higher predicted prices, which may indicate heteroscedasticity. This increasing spread of residuals at higher fitted values implies that the model may be missing other influential variables. And this reinforces the need to build a multiple regression model that includes additional predictors to improve performance and reduce error variance.
+
+```{r}
+# gets the residuals from the model
+residuals_model1 <- resid(lr_model1)
+
+# plots the residuals vs fitted values
+plot(lr_model1$fitted.values, residuals_model1,
+     # sets x axis label
+     xlab = "Fitted Values (Predicted Price)", 
+     # sets y-axis label
+     ylab = "Residuals",
+     # sets plot title
+     main = "Residuals vs Fitted Values",
+     # sets plot point formatting
+     pch = 20, col = "darkgray")
+# adds a dashed red line at y = 0 to highlight 0 residuals
+abline(h = 0, col = "red", lwd = 2, lty = 2)
+```
+
+### Use a qq plot to observe your residuals. Do your residuals meet the normality assumption?
+
+To validate whether or not the residuals from my linear regression model, lr_model1, meet the normality assumption I've generated the Q-Q plot below. The plot compares the distribution of the model's residuals to a theoretical 'normal' distribution. The residuals appear roughly normal in the center but the right tail noticeably deviates from the reference 'normal' line. This suggests non-normality, likely caused by extreme values or limitations in the mode's ability to predict high-priced properties. This departure from normality reinforces the need for a more robust model, incorporating additional predictors to better capture the full distribution of housing prices.
+
+```{r}
+# creates a Q-Q plot to assess normality of residuals
+qqnorm(residuals(lr_model1),
+       # sets plot title
+       main = "Q-Q Plot of Residuals",
+       # sets plot point formatting
+       pch = 20, col = "lightblue")
+# adds a dashed blue reference line for normal distribution
+qqline(residuals(lr_model1), col = "blue", lwd = 2, lty = 2)
+```
+
+### Create a linear regression model that uses multiple predictor variables to predict Sale Price (feel free to derive new predictors from existing ones). Explain why you think each of these variables may add explanatory value to the model.
+
+From the previous linear model evaluations, I've determined that I need to incorporate additional features for improved predictive performance. So, I've built a multiple linear regression model, lr_model2, using multiple predictor variables that are likely to influence housing prices. Next, I will provide an explanation for my predictor selections:
+
+area: Larger properties tend to cost more. This remains the strongest continuous predictor of price. 
+
+bedrooms/bathrooms: more rooms typically increase value
+
+stories: multiple story homes often indicate larger, more expensive properties
+
+parking: the availability of parking adds convenience and value
+
+airconditioning: homes with air conditioning are more desirable, especially in warmer climates, which may increase price
+
+furnishing status: from the previous boxplots, furnished and semi-furnished homes tend to command higher prices due to added convenience
+
+```{r}
+# creates a new model using multiple predictors
+lr_model2 <- lm(price ~ area + bedrooms + bathrooms + stories + parking + airconditioning + furnishingstatus, data = housing_data)
+```
+
+### Get a summary of this GLM and explain your results.
+
+The summary of the multiple linear regression model I've created, lr_model2, gives insight into how each variable contributes to explaining housing prices. The R-squared value of approx. 0.6226 tells us that about 62.3% of the variation in housing price is explained by this model. This is a vast improvement from the previous linear regression model which used only area as a predictor. The adjusted R-squared of 0.617 is slightly lower than R-squared, accounting for the number of predictors. It confirms that the added variables contribute meaningfully to the model. The RSE of $1,158,000 tells us that on average, predictions deviate from actual prices by about $1.16 million, a noticeable reduction in error compared to the previous linear regression model. The F-statistic is 110.5 with a p-value < 2.2e-16, indicating that the model is statistically significant. 
+
+Next I'll explain the coefficients seen below:
+
+area: Highly significant, each additional sqft. adds approx. $290 to the predicted price
+
+bathrooms: Highly significant each additional bathroom adds over $1 million to predicted price. 
+
+stories/parking/airconditioning: All of these have positive and statistically significant effects, suggesting these amenities increase home value.
+
+bedrooms: Marginally significant (p ≈ 0.054), suggesting a weaker, but still positive influence.
+
+furnishing status: 
+
+  - semi-furnished: Not statistically significant
+  
+  - unfurnished: Significantly decreases price by about $575,000 compared to fully furnished homes
+  
+In sum, most predictors are statistically significant and align with real-world expectations, in that larger homes with more amenities tend to command higher prices. These findings validate the importance of including multiple features when modeling housing prices.
+
+```{r}
+# produces a summary of the multiple linear regression model
+summary(lr_model2)
+```
+
+### Get the residuals of your second model (you can use ‘resid’ or ‘residuals’ functions) and plot them. What does the plot tell you about your predictions?
+
+The residual plot confirms that the multiple regression model provides a better fit than the simple model. While not perfect, the residuals are more stable and less dispersed, indicating that the additional predictors helped capture more of the variation in housing prices. Minor signs of heteroscedasticity suggest that further refinement, like transformations or additional features, could improve the model even more.
+
+```{r}
+# gets residuals from the second model
+residuals_model2 <- resid(lr_model2)
+
+# plot residuals vs. fitted values
+plot(lr_model2$fitted.values, residuals_model2,
+     # sets x-axis label
+     xlab = "Fitted Values (Predicted Price)",
+     # sets y-axis label
+     ylab = "Residuals",
+     # sets plot title
+     main = "Residuals vs Fitted Values (Multiple Regression)",
+     # sets plot point formatting
+     pch = 20, col = "orange")
+# adds a dashed blue line at y = 0 to highlight 0 residuals
+abline(h = 0, col = "blue", lwd = 2, lty = 2)
+```
+
+### Use a qq plot to observe your residuals. Do your residuals meet the normality assumption?
+
+To assess whether the residuals from my multiple regression model, lr_model2, meet the normality assumption, I generated the Q-Q plot below. It compares the distribution of residuals to a theoretical normal distribution. The residuals follow the reference 'normal' (blue dashed) line fairly well through the center, suggesting approximate normality for most observations. However, the right tail shows a consistent upward deviation, where residuals curve away from the line. This indicates positive skewness, where the model tends to under-predict for high-priced properties 
+
+
+
+
+```{r}
+# create a Q-Q plot to assess normality of residuals
+qqnorm(resid(lr_model2),
+       main = "Q-Q Plot of Residuals (Multiple Regression)",
+       pch = 20, col = "lightpink")
+# add reference line for normal distribution
+qqline(resid(lr_model2), col = "blue", lwd = 2, lty = 2)
+```
+
+### Compare the results (e.g., R2, adj R2, RMSE, MSE) between your first and second model. Does your new model show an improvement over the first? To confirm a ‘significant’ improvement between the second and first model, use ANOVA to compare them. What are the results?
+
+To evaluate whether the multiple regression model (lr_model2) significantly improves upon the initial regression model (lr_model1), I compared key performance metrics and conducted an ANOVA test. From the output below, we can see that the multiple regression model shows substantial improvement in explanatory power (R-squared) and prediction accuracy (lower RMSE and MSE). Further, the adjusted R-squared confirms that the added predictors contribute meaningfully without over-fitting. From the ANOVA table, the very low p-value confirms that the improvement is statistically significant. And the reduction in residual sum of squares (RSS) shows that the multiple model explains much more of the variation in price.
+
+In conclusion, the multiple regression model significantly outperforms the simple model in both explanatory power & predictive accuracy. The ANOVA test confirms that the improvement is not due to random change, but that the added predictors do meaningfully enhance the model's ability to estimate housing price.
+
+```{r}
+# calculates residuals for both models
+residuals_model1 <- resid(lr_model1)
+residuals_model2 <- resid(lr_model2)
+
+# calculates RMSE (Root Mean Squared Error) for both models
+rmse_model1 <- sqrt(mean(residuals_model1^2))
+rmse_model2 <- sqrt(mean(residuals_model2^2))
+
+# calculates MSE (Mean Squared Error) for both models
+mse_model1 <- mean(residuals_model1^2)
+mse_model2 <- mean(residuals_model2^2)
+
+# compares models using ANOVA
+anova_comparison <- anova(lr_model1, lr_model2)
+
+# prints results
+rmse_model1; rmse_model2
+mse_model1; mse_model2
+anova_comparison
+```
+
+
+
+
+
+
