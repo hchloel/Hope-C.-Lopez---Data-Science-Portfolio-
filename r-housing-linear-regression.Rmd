@@ -1,11 +1,8 @@
 ---
-title: '10.2Exercise_Lopez_H'
+title: 'r-housing-linear-regression.Rmd'
 author: "Hope Lopez"
 date: "2025-11-14"
-output: html_document
 ---
-***modified by:*** n/a
-
 ***description:*** Linear Regression Practice
 
 ***references:*** 
@@ -271,6 +268,7 @@ rmse_model1; rmse_model2
 mse_model1; mse_model2
 anova_comparison
 ```
+
 
 
 
