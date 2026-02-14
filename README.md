@@ -56,24 +56,30 @@ The projects in this repo use real‑world, publicly available datasets and demo
 **Overview**: This notebook contains three independent modeling exercises, each using a different dataset and technique.
 
 **Exercise 1: Wine Quality Clustering**
+
 Goal: Use K‑Means to cluster red and white wines based on chemical properties.
+
 Steps:
 - Loaded and cleaned red/white wine datasets
 - Combined them and added a type column
 - Built a pipeline with StandardScaler + KMeans
 - Evaluated clustering with Fowlkes–Mallows Index
+  
 Results:
 - FMI = 0.982 → near‑perfect separation
 - Cluster centers reveal meaningful chemical differences
 - K‑Means naturally distinguishes red vs. white wines
 
 **Exercise 2: Predicting Star Temperature**
+
 Goal: Build a linear regression model to predict star temperature.
+
 Steps:
 - Loaded stars.csv and assessed missingness
 - Kept only rows with complete numeric data (596 rows)
 - Trained/test split (75/25)
 - Built linear regression model
+  
 Results:
 - R² = 0.8802
 - RMSE = 257.94 K (~4.7% of mean temperature)
@@ -82,10 +88,13 @@ Results:
 - Residuals mostly normal with mild skew
 
 **Exercise 3: Classifying Planetary Year Length**
+
 Goal: Predict whether a planet’s orbital period is shorter than Earth’s.
+
 Steps:
 - Built logistic regression model
 - Evaluated with accuracy, precision/recall/F1, ROC‑AUC, confusion matrix
+- 
 Results:
 - Accuracy = 0.977
 - ROC‑AUC = 0.99
@@ -130,7 +139,7 @@ Results:
   
 **Statistical Modeling**
 - Welch’s t‑test
-- - Levene’s test
+- Levene’s test
 - Simple and multiple linear regression (Python & R)
 - Regression diagnostics (residual plots, Q‑Q plots, heteroscedasticity checks)
 - ANOVA model comparison
