@@ -1,9 +1,9 @@
 # Hi, I’m Hope, and welcome to my Data Science portfolio! 
-This repository showcases a collection of end‑to‑end projects I have completed during my M.S. in Data Science program. Each project reflects the full analytical workflow — from data cleaning and feature engineering to exploratory analysis, statistical modeling, machine learning, and interpretation.
+This repository showcases a collection of end‑to‑end projects I have completed during my M.S. in Data Science program. Each project reflects the full analytical workflow, from data cleaning and feature engineering to exploratory analysis, statistical modeling, machine learning, and interpretation.
 The projects in this repo use real‑world, publicly available datasets and demonstrate practical, industry‑aligned data science skills. My goal is to highlight not only technical proficiency, but also clear reasoning, thoughtful methodology, and strong communication of insights.
 
 
-## Project 1 — Austin Animal Shelter Outcomes Analysis
+## Project 1: Austin Animal Shelter Outcomes Analysis
 **Notebook**: austin-animal-shelter-outcomes-analysis.ipynb
 
 **Techniques**: EDA, feature engineering, hypothesis testing, regression, classification, clustering
@@ -48,14 +48,14 @@ The projects in this repo use real‑world, publicly available datasets and demo
   - Silhouette Score: 0.41
   - PCA visualization shows moderate separation
 
-## Project 2 — Wine, Stars, and Planets Analysis
+## Project 2: Wine, Stars, and Planets Analysis
 **Notebook**: wine-stars-planets-analysis.ipynb
 
 **Techniques**: Clustering, linear regression, logistic regression, model evaluation
 
 **Overview**: This notebook contains three independent modeling exercises, each using a different dataset and technique.
 
-**Exercise 1 — Wine Quality Clustering**
+**Exercise 1: Wine Quality Clustering**
 Goal: Use K‑Means to cluster red and white wines based on chemical properties.
 Steps:
 - Loaded and cleaned red/white wine datasets
@@ -67,8 +67,8 @@ Results:
 - Cluster centers reveal meaningful chemical differences
 - K‑Means naturally distinguishes red vs. white wines
 
-**Exercise 2 — Predicting Star Temperature**
-Goal: Build a linear regression model to predict stellar temperature.
+**Exercise 2: Predicting Star Temperature**
+Goal: Build a linear regression model to predict star temperature.
 Steps:
 - Loaded stars.csv and assessed missingness
 - Kept only rows with complete numeric data (596 rows)
@@ -81,7 +81,7 @@ Results:
 - Coefficients reveal meaningful astrophysical relationships
 - Residuals mostly normal with mild skew
 
-**Exercise 3 — Classifying Planetary Year Length**
+**Exercise 3: Classifying Planetary Year Length**
 Goal: Predict whether a planet’s orbital period is shorter than Earth’s.
 Steps:
 - Built logistic regression model
@@ -92,7 +92,7 @@ Results:
 - Very few misclassifications
 - Strong, balanced performance across both classes
 
-## Project 3 — Housing Price Analysis in R
+## Project 3: Housing Price Analysis in R
 **Notebook**: r-housing-linear-regression.Rmd
 
 **Techniques**: Data wrangling, categorical encoding, visualization, simple & multiple linear regression, residual diagnostics, ANOVA model comparison (R)
@@ -119,6 +119,7 @@ Results:
 - Outlier detection and treatment
 - Feature engineering (age calculations, transformations, grouping)
 - Dataset merging and cleaning across multiple formats
+  
 **Exploratory Data Analysis**
 - Summary statistics and distribution analysis
 - Correlation and covariance matrices
@@ -126,6 +127,7 @@ Results:
 - Missingness visualization
 - Histograms, boxplots, scatterplots, and density plots
 - Correlation heatmaps and matrix visualizations (Python & R)
+  
 **Statistical Modeling**
 - Welch’s t‑test
 - - Levene’s test
@@ -133,6 +135,7 @@ Results:
 - Regression diagnostics (residual plots, Q‑Q plots, heteroscedasticity checks)
 - ANOVA model comparison
 - Interpretation of coefficients, significance, and model assumptions
+  
 **Machine Learning**
 - Linear regression
 - Logistic regression
@@ -141,6 +144,7 @@ Results:
 - Model evaluation: R², adjusted R², RMSE, MSE
 - Classification metrics: precision, recall, F1 score, ROC‑AUC
 - Clustering metrics: silhouette score, Fowlkes–Mallows Index
+  
 **Tools & Libraries**
 - Python: Pandas, NumPy, Matplotlib, Seaborn, Scikit‑learn
 - R: Base R, RMarkdown, corrplot, factor handling, model diagnostics
